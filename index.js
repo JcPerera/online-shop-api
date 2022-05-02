@@ -19,12 +19,12 @@ app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 
-
 mongoose
   .connect(process.env.MONGO_URL)
-  .then(() => console.log("DB connection Success"))
+  .then(() => {
+    console.log("DB connection Success");
+    app.listen(process.env.PORT || 5000, () => {
+      console.log("Server is Running on port " + process.env.PORT);
+    });
+  })
   .catch((err) => console.log(err));
-
-app.listen(process.env.PORT || 5000, () => {
-  console.log("Server is Running");
-});

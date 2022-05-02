@@ -9,11 +9,18 @@ const router = require("express").Router();
 
 //UPDATE
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  const saltRounds = 10;
+
   if (req.body.password) {
-    req.body.password = CryptoJS.AES.encrypt(
-      req.body.password,
-      process.env.PASS_SEC
-    ).toString();
+    try {
+      req.body.password = await bcrypt
+        .hash(req.body.password, saltRounds)
+        .then((hash) => {
+          return hash;
+        });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 
   try {
@@ -85,7 +92,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
         },
       },
     ]);
-    res.status(200).json(data)
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
   }
