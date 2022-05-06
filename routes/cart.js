@@ -3,7 +3,7 @@ const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("./verifyToken");
+} = require("../middleware/tokenAuth");
 
 const router = require("express").Router();
 
@@ -56,8 +56,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
-// //GET ALL
-
+//GET ALL
 router.get("/", verifyTokenAndAdmin, async (req, res) => {
   try {
     const carts = await Cart.find();

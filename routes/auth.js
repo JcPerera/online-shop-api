@@ -5,11 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
-  const saltRounds = 10;
-
-  let hash = await bcrypt.hash(req.body.password, saltRounds).then((hash) => {
-    return hash;
-  });
+  let hash = await bcrypt.hash(req.body.password, 10);
 
   const newUser = new User({
     username: req.body.username,
@@ -26,15 +22,13 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.session);
   try {
     const user = await User.findOne({ username: req.body.username });
     if (user) {
-      let authenticated = await bcrypt
-        .compare(req.body.password, user.password)
-        .then((result) => {
-          return result;
-        });
+      let authenticated = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
 
       if (authenticated) {
         const accessToken = jwt.sign(
