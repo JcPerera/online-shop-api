@@ -1,17 +1,19 @@
-const {
+import express from "express";
+import {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("../middleware/tokenAuth");
-const {
+} from "../middleware/tokenAuth.js";
+import {
   createOrder,
   deleteOrder,
   getAllOrders,
   getMonthlyIncome,
   getUserOrders,
   updateOrder,
-} = require("../controllers/orders");
-const router = require("express").Router();
+} from "../controllers/orders.js";
+
+const router = express.Router();
 
 router.post("/", verifyToken, createOrder);
 router.put("/:id", verifyTokenAndAdmin, updateOrder);
@@ -20,4 +22,4 @@ router.get("/find/:userId", verifyTokenAndAuthorization, getUserOrders);
 router.get("/", verifyTokenAndAdmin, getAllOrders);
 router.get("/income", verifyTokenAndAdmin, getMonthlyIncome);
 
-module.exports = router;
+export default router;

@@ -1,22 +1,21 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const helmet = require('helmet')
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import helmet from "helmet";
 
-const userRoute = require("./routes/user");
-const authRoute = require("./routes/auth");
-const productRoute = require("./routes/product");
-const cartRoute = require("./routes/cart");
-const orderRoute = require("./routes/order");
-
+import userRoute from "./routes/user.js";
+import authRoute from "./routes/auth.js";
+import productRoute from "./routes/product.js";
+import cartRoute from "./routes/cart.js";
+import orderRoute from "./routes/order.js";
+import { DBconnect } from "./config/database.js";
 
 dotenv.config();
-// need to initialize .env before mongoose, so we can use env variables inside db config
-require("./config/database").connect();
-
+DBconnect();
 const app = express();
+
 app.use(cors());
-app.use(helmet())
+app.use(helmet());
 app.use(express.json());
 
 // routes

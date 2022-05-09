@@ -1,6 +1,6 @@
-const User = require("../models/User");
+import User from "../models/User.js";
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   if (req.body.password) {
     try {
       req.body.password = await bcrypt.hash(req.body.password, 10);
@@ -22,7 +22,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json("User has been deleted...");
@@ -31,7 +31,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { password, ...others } = user._doc;
@@ -41,7 +41,7 @@ const getUser = async (req, res) => {
   }
 };
 
-const getAllUser = async (req, res) => {
+export const getAllUser = async (req, res) => {
   const query = req.query.new;
   try {
     const users = query
@@ -53,7 +53,7 @@ const getAllUser = async (req, res) => {
   }
 };
 
-const getUserStats = async (req, res) => {
+export const getUserStats = async (req, res) => {
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
@@ -78,4 +78,3 @@ const getUserStats = async (req, res) => {
   }
 };
 
-module.exports = { updateUser, deleteUser, getUser, getAllUser, getUserStats };

@@ -1,6 +1,6 @@
-const Order = require("../models/Order");
+import Order from "../models/Order.js";
 
-const createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   const newOrder = new Order(req.body);
   try {
     const savedOrder = await newOrder.save();
@@ -10,7 +10,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-const updateOrder = async (req, res) => {
+export const updateOrder = async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
@@ -25,7 +25,7 @@ const updateOrder = async (req, res) => {
   }
 };
 
-const deleteOrder = async (req, res) => {
+export const deleteOrder = async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     res.status(200).json("Order has been deleted...");
@@ -34,7 +34,7 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-const getUserOrders = async (req, res) => {
+export const getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.params.userId });
     res.status(200).json(orders);
@@ -43,7 +43,7 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-const getAllOrders = async (req, res) => {
+export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find();
     res.status(200).json(orders);
@@ -52,7 +52,7 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-const getMonthlyIncome = async (req, res) => {
+export const getMonthlyIncome = async (req, res) => {
   const productId = req.query.pid;
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
@@ -85,13 +85,4 @@ const getMonthlyIncome = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
-
-module.exports = {
-  createOrder,
-  updateOrder,
-  deleteOrder,
-  getUserOrders,
-  getAllOrders,
-  getMonthlyIncome,
 };

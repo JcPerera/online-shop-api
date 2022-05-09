@@ -1,18 +1,18 @@
-const router = require("express").Router();
-const {
+import express from "express";
+import {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("../middleware/tokenAuth");
-const {
+} from "../middleware/tokenAuth.js";
+import {
   create,
   update,
   deleteCart,
   getUserCart,
   getAllCarts,
-} = require("../controllers/cart");
+} from "../controllers/cart.js";
 
-
+const router = express.Router();
 
 router.post("/", verifyToken, create);
 router.put("/:id", verifyTokenAndAuthorization, update);
@@ -20,4 +20,4 @@ router.delete("/:id", verifyTokenAndAuthorization, deleteCart);
 router.get("/find/:userId", verifyTokenAndAuthorization, getUserCart);
 router.get("/", verifyTokenAndAdmin, getAllCarts);
 
-module.exports = router;
+export default router;

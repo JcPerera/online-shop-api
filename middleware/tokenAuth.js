@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   const authHeader =
     req.headers.authorization && req.headers.authorization.startsWith("Bearer");
   if (authHeader) {
@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const verifyTokenAndAuthorization = (req, res, next) => {
+export const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
@@ -28,7 +28,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
   });
 };
 
-const verifyTokenAndAdmin = (req, res, next) => {
+export const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.isAdmin) {
       next();
@@ -36,10 +36,4 @@ const verifyTokenAndAdmin = (req, res, next) => {
       res.status(403).json("You are not alowed to do that!");
     }
   });
-};
-
-module.exports = {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndAdmin,
 };

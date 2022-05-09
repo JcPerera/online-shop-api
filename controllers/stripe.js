@@ -1,7 +1,9 @@
-const KEY = process.env.STRIPE_KEY;
-const stripe = require("stripe")(KEY);
+import Stripe from "stripe";
 
-const makePayment = async (req, res) => {
+const KEY = process.env.STRIPE_KEY;
+const stripe = new Stripe(KEY);
+
+export const makePayment = async (req, res) => {
   stripe.charges.create(
     {
       source: req.body.tokenId,
@@ -17,5 +19,3 @@ const makePayment = async (req, res) => {
     }
   );
 };
-
-module.exports = { makePayment };
